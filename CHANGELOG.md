@@ -1,3 +1,7 @@
+# 2.0.2+1
+
+- Fixed README.md
+
 # 2.0.2
 
 - Updated package metadata & owner
