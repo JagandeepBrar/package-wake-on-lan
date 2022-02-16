@@ -1,3 +1,8 @@
+# 2.0.3
+
+- Ran Dart formatter
+- Updated dependencies
+
 # 2.0.2+1
 
 - Fixed README.md
