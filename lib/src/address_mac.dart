@@ -8,7 +8,7 @@ import 'package:convert/convert.dart';
 ///
 /// Create a [MACAddress] object by using the factory `MACAddress.from(address)` where address is a string representation of the address. The factory will call the validation function mentioned above, but will throw a [FormatException] on a poorly constructed string, so it is recommended to validate it first.
 class MACAddress {
-  static const String _REGEX = r"^([0-9A-Fa-f]{2}[:]){5}([0-9A-Fa-f]{2})$";
+  static const String _regex = r"^([0-9A-Fa-f]{2}[:]){5}([0-9A-Fa-f]{2})$";
   String _address;
   List<int> _bytes;
 
@@ -19,8 +19,9 @@ class MACAddress {
   /// The address should first be validated using the static function [MACAddress.validate(address)].
   /// On an invalidly formatted [address] string, [FormatException] will be thrown.
   factory MACAddress.from(String address) {
-    if (!MACAddress.validate(address))
+    if (!MACAddress.validate(address)) {
       throw FormatException('Not a valid MAC address string');
+    }
     List<int> bytes =
         address.split(":").map((octet) => hex.decode(octet)[0]).toList();
     return MACAddress._internal(address, bytes);
@@ -38,7 +39,7 @@ class MACAddress {
   /// Returns [true] on a valid address, [false] on a poorly formatted [address].
   static bool validate(String? address) {
     if (address == null) return false;
-    RegExp exp = RegExp(_REGEX);
+    RegExp exp = RegExp(_regex);
     return exp.hasMatch(address);
   }
 }

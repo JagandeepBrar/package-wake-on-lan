@@ -28,7 +28,7 @@ void _functionValidate() {
       expect(MACAddress.validate(address), true);
     });
     test('Null String', () {
-      String? address = null;
+      String? address;
       expect(MACAddress.validate(address), false);
     });
     test('Empty String', () {

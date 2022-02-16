@@ -1,3 +1,7 @@
+# 2.0.3+1
+
+- Run Dart analyzer
+
 # 2.0.3
 
 - Ran Dart formatter

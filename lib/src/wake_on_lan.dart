@@ -8,7 +8,7 @@ import './address_mac.dart';
 ///
 /// Once created, call the function `wake()` on the [WakeOnLAN] instance to send the packet.
 class WakeOnLAN {
-  static const _MAX_PORT = 65535;
+  static const _maxPort = 65535;
   final IPv4Address _ipv4Address;
   final MACAddress _macAddress;
   final int _port;
@@ -19,7 +19,7 @@ class WakeOnLAN {
   ///
   /// The port is defaulted to 9, the standard port for Wake on LAN functionality.
   factory WakeOnLAN.from(IPv4Address ipv4, MACAddress mac, {int port = 9}) {
-    assert(port <= _MAX_PORT);
+    assert(port <= _maxPort);
     return WakeOnLAN._internal(ipv4, mac, port);
   }
 
@@ -40,8 +40,14 @@ class WakeOnLAN {
   /// Remaining 96 bytes (768 bits) is the 6 byte (48 bit) MAC address repeated 16 times.
   List<int> magicPacket() {
     List<int> data = [];
-    for (int i = 0; i < 6; i++) data.add(0xFF);
-    for (int j = 0; j < 16; j++) data.addAll(_macAddress.bytes);
+
+    for (int i = 0; i < 6; i++) {
+      data.add(0xFF);
+    }
+    for (int j = 0; j < 16; j++) {
+      data.addAll(_macAddress.bytes);
+    }
+
     return data;
   }
 

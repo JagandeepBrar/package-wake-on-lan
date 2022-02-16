@@ -24,7 +24,7 @@ void _functionValidate() {
       expect(IPv4Address.validate(address), true);
     });
     test('Null String', () {
-      String? address = null;
+      String? address;
       expect(IPv4Address.validate(address), false);
     });
     test('Empty String', () {

@@ -4,7 +4,7 @@
 ///
 /// Create an [IPv4Address] object by using the factory `IPv4Address.from(address)` where address is a string representation of the address. The factory will call the validation function mentioned above, but will throw a [FormatException] on a poorly constructed string, so it is recommended to validate it first.
 class IPv4Address {
-  static const String _REGEX =
+  static const String _regex =
       r"\b((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.|$)){4}\b";
   final String _address;
 
@@ -19,8 +19,9 @@ class IPv4Address {
   /// This typically is the IPv4 address of your machine with the last block set to 255.
   /// _This can differ depending on the subnet mask used for the network_.
   factory IPv4Address.from(String address) {
-    if (!IPv4Address.validate(address))
+    if (!IPv4Address.validate(address)) {
       throw FormatException('Not a valid IPv4 address string');
+    }
     return IPv4Address._internal(address);
   }
 
@@ -32,7 +33,7 @@ class IPv4Address {
   /// Returns [true] on a valid address, [false] on a poorly formatted [address].
   static bool validate(String? address) {
     if (address == null) return false;
-    RegExp exp = RegExp(_REGEX);
+    RegExp exp = RegExp(_regex);
     return exp.hasMatch(address);
   }
 }
