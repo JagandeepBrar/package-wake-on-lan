@@ -1,4 +1,4 @@
-# wake_on_lan
+# Wake-on-LAN for Dart
 
 [![Pubdev][pubdev-shield]][pubdev]
 ![License][license-shield]
@@ -37,7 +37,7 @@ if(IPv4Address.validate(address)) {
 
 The class has a static function, `validate(String address)` which allows easy validation that a MAC address string is correctly formatted.
 
-> The MAC address **must be** delimited by colons (:) between each hexidecimal octet.
+> The MAC address **must be** delimited by colons (:) between each hexadecimal octet.
 
 Create a `MACAddress` instance by using the factory `MACAddress.from(address)` where `address` is a string representation of the address. The factory will call the validation function mentioned above, but will throw a `FormatException` on a poorly constructed string, so it is recommended to validate it first.
 
@@ -78,6 +78,6 @@ Wake on LAN functionality utilizes [User Datagram Protocol (UDP)](https://en.wik
 
 Because wake-on-LAN packets are sent over UDP, beyond the successful creation of a datagram socket and sending the data over the network, there is no way to confirm that the machine has been awoken beyond pinging the machine after waking it (**This functionality is not implemented in this package**). This is because of the nature of UDP sockets which do not need to establish the connection for the data to be sent.
 
-[license-shield]: https://img.shields.io/github/license/JagandeepBrar/wake_on_lan?style=for-the-badge
+[license-shield]: https://img.shields.io/github/license/JagandeepBrar/wake-on-lan?style=for-the-badge
 [pubdev]: https://pub.dev/packages/wake_on_lan/
 [pubdev-shield]: https://img.shields.io/pub/v/wake_on_lan.svg?style=for-the-badge

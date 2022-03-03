@@ -1,3 +1,7 @@
+# 2.0.3+2
+
+- Updated metadata
+
 # 2.0.3+1
 
 - Run Dart analyzer

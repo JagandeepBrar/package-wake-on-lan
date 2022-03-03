@@ -1,9 +1,9 @@
 name: wake_on_lan
 description: Send wake on LAN magic packets to devices on your local network.
-version: 2.0.3+1
-homepage: https://github.com/JagandeepBrar/wake_on_lan
-repository: https://github.com/JagandeepBrar/wake_on_lan
-issue_tracker: https://github.com/JagandeepBrar/wake_on_lan/issues
+version: 2.0.3+2
+homepage: https://github.com/JagandeepBrar/wake-on-lan
+repository: https://github.com/JagandeepBrar/wake-on-lan
+issue_tracker: https://github.com/JagandeepBrar/wake-on-lan/issues
 environment:
   sdk: '>=2.12.0 <3.0.0'
 dependencies:
