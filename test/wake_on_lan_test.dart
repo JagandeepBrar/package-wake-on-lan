@@ -3,47 +3,47 @@ import 'package:test/test.dart';
 
 void main() {
   _getters();
-  _factoryFrom();
+  _constructor();
   _functionMagicPacket();
   _functionWake();
 }
 
 void _getters() {
   group('Getters', () {
-    MACAddress mac = MACAddress.from('AA:BB:CC:DD:EE:FF');
-    IPv4Address ipv4 = IPv4Address.from('192.168.1.1');
+    MACAddress mac = MACAddress('AA:BB:CC:DD:EE:FF');
+    IPv4Address ipv4 = IPv4Address('192.168.1.1');
     test('macAddress', () {
-      WakeOnLAN wol = WakeOnLAN.from(ipv4, mac);
+      WakeOnLAN wol = WakeOnLAN(ipv4, mac);
       expect(wol.macAddress, mac.address);
     });
     test('ipv4Address', () {
-      WakeOnLAN wol = WakeOnLAN.from(ipv4, mac);
+      WakeOnLAN wol = WakeOnLAN(ipv4, mac);
       expect(wol.ipv4Address, ipv4.address);
     });
     test('port (undefined)', () {
-      WakeOnLAN wol = WakeOnLAN.from(ipv4, mac);
+      WakeOnLAN wol = WakeOnLAN(ipv4, mac);
       expect(wol.port, 9);
     });
     test('port (defined)', () {
       int port = 1234;
-      WakeOnLAN wol = WakeOnLAN.from(ipv4, mac, port: port);
+      WakeOnLAN wol = WakeOnLAN(ipv4, mac, port: port);
       expect(wol.port, port);
     });
   });
 }
 
-void _factoryFrom() {
-  MACAddress mac = MACAddress.from('AA:BB:CC:DD:EE:FF');
-  IPv4Address ipv4 = IPv4Address.from('192.168.1.1');
-  group('Factory: .from()', () {
+void _constructor() {
+  MACAddress mac = MACAddress('AA:BB:CC:DD:EE:FF');
+  IPv4Address ipv4 = IPv4Address('192.168.1.1');
+  group('Constructor', () {
     test('Valid Instance: port undefined', () {
-      expect(WakeOnLAN.from(ipv4, mac), isA<WakeOnLAN>());
+      expect(WakeOnLAN(ipv4, mac), isA<WakeOnLAN>());
     });
     test('Valid Instance: port defined', () {
-      expect(WakeOnLAN.from(ipv4, mac, port: 1234), isA<WakeOnLAN>());
+      expect(WakeOnLAN(ipv4, mac, port: 1234), isA<WakeOnLAN>());
     });
     test('Invalid Instance: port defined, invalid number', () {
-      expect(() => WakeOnLAN.from(ipv4, mac, port: 70000),
+      expect(() => WakeOnLAN(ipv4, mac, port: 70000),
           throwsA(isA<AssertionError>()));
     });
   });
@@ -51,11 +51,11 @@ void _factoryFrom() {
 
 void _functionWake() {
   group('Function: .wake()', () {
-    MACAddress mac = MACAddress.from('A4:83:E7:0D:7F:4F');
-    IPv4Address ipv4 = IPv4Address.from('192.168.99.255');
+    MACAddress mac = MACAddress('A4:83:E7:0D:7F:4F');
+    IPv4Address ipv4 = IPv4Address('192.168.99.255');
     test('Ensure it runs', () async {
       try {
-        await WakeOnLAN.from(ipv4, mac).wake();
+        await WakeOnLAN(ipv4, mac).wake();
       } catch (error) {
         fail(error.toString());
       }
@@ -65,8 +65,8 @@ void _functionWake() {
 
 void _functionMagicPacket() {
   group('Function: .magicPacket()', () {
-    MACAddress mac = MACAddress.from('AA:BB:CC:DD:EE:FF');
-    IPv4Address ipv4 = IPv4Address.from('192.168.1.1');
+    MACAddress mac = MACAddress('AA:BB:CC:DD:EE:FF');
+    IPv4Address ipv4 = IPv4Address('192.168.1.1');
     const _prebuiltPacket = [
       // 6 0xFF (255) bytes
       255, 255, 255, 255, 255, 255,
@@ -90,7 +90,7 @@ void _functionMagicPacket() {
       170, 187, 204, 221, 238, 255,
     ];
     test('Check if the array is built correctly', () {
-      WakeOnLAN wol = WakeOnLAN.from(ipv4, mac);
+      WakeOnLAN wol = WakeOnLAN(ipv4, mac);
       expect(wol.magicPacket(), _prebuiltPacket);
     });
   });

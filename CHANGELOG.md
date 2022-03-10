@@ -1,3 +1,10 @@
+# 3.0.0
+
+- BREAKING: Remove factory `IPv4Address.from(...)`, now instantiated with just `IPv4Address(...)`
+- BREAKING: Remove factory `MACAddress.from(...)`, now instantiated with just `MACAddress(...)`
+- BREAKING: Remove factory `WakeOnLAN.from(...)`, now instantiated with just `WakeOnLAN(...)`
+- Updated documentation
+
 # 2.0.3+2
 
 - Updated metadata

@@ -2,11 +2,7 @@ import 'dart:io';
 import './address_ipv4.dart';
 import './address_mac.dart';
 
-/// [WakeOnLAN] is the class to handle sending the actual wake-on-LAN magic packet to your network.
-///
-/// Create a [WakeOnLAN] instance by using the factory `WakeOnLAN.from(ipv4, mac, { port })` where ipv4 is an [IPv4Address] instance, mac is a [MACAddress] instance, and `port` is an optional integer parameter for which port the packet should be sent over (defaulted to the specification standard port, 9).
-///
-/// Once created, call the function `wake()` on the [WakeOnLAN] instance to send the packet.
+/// [WakeOnLAN] handles sending the actual wake-on-LAN magic packet to your network.
 class WakeOnLAN {
   static const _maxPort = 65535;
   final IPv4Address _ipv4Address;
@@ -18,7 +14,7 @@ class WakeOnLAN {
   /// Creates [WakeOnLAN] from an [IPv4Address], [MACAddress], and optionally defined [port].
   ///
   /// The port is defaulted to 9, the standard port for Wake on LAN functionality.
-  factory WakeOnLAN.from(IPv4Address ipv4, MACAddress mac, {int port = 9}) {
+  factory WakeOnLAN(IPv4Address ipv4, MACAddress mac, {int port = 9}) {
     assert(port <= _maxPort);
     return WakeOnLAN._internal(ipv4, mac, port);
   }

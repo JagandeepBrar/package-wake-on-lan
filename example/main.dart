@@ -10,10 +10,9 @@ void main() async {
   if (!MACAddress.validate(mac)) return;
 
   // Create the IPv4 and MAC objects
-  IPv4Address ipv4Address = IPv4Address.from(ip);
-  MACAddress macAddress = MACAddress.from(mac);
+  IPv4Address ipv4Address = IPv4Address(ip);
+  MACAddress macAddress = MACAddress(mac);
 
   // Send the WOL packet
-  // Port parameter is optional, set to 55 here as an example, but defaults to port 9
-  WakeOnLAN.from(ipv4Address, macAddress, port: 55).wake();
+  WakeOnLAN(ipv4Address, macAddress).wake();
 }
