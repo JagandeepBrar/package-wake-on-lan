@@ -1,3 +1,9 @@
+# 3.1.0
+
+- feat: Support custom delimiters for MAC addresses
+- feat: Support instantiating a WakeOnLAN instance by strings using the `fromString` factory
+- Updated metadata
+
 # 3.0.0
 
 - BREAKING: Remove factory `IPv4Address.from(...)`, now instantiated with just `IPv4Address(...)`

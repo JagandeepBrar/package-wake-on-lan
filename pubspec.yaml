@@ -1,6 +1,6 @@
 name: wake_on_lan
 description: Send wake on LAN magic packets to devices on your local network.
-version: 3.0.0
+version: 3.1.0
 homepage: https://github.com/ProjectVagabond/wake-on-lan
 repository: https://github.com/ProjectVagabond/wake-on-lan
 issue_tracker: https://github.com/ProjectVagabond/wake-on-lan/issues
