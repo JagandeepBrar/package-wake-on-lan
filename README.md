@@ -37,14 +37,25 @@ if(IPv4Address.validate(address)) {
 
 The class has a static function, `validate(String address)` which allows easy validation that a MAC address string is correctly formatted.
 
-> The MAC address **must be** delimited by colons (:) between each hexadecimal octet.
-
 Create a `MACAddress` instance by using `MACAddress(address)` where `address` is a string representation of the address. The factory will call the validation function mentioned above, but will throw a `FormatException` on a poorly constructed string, so it is recommended to validate it first.
 
 ```dart
 String address = 'AA:BB:CC:DD:EE:FF';
 if(MACAddress.validate(address)) {
     MACAddress mac = MACAddress(address);
+    //Continue execution
+} else {
+    // Handle invalid address case
+}
+```
+
+You can optionally pass in a custom `delimiter` when the octets are not separated by colons (:). Ensure you pass the custom `delimiter` to both the `validate` function and the factory constructor when instantiating a `MACAddress` in this scenario.
+
+```dart
+String delimiter = '#';
+String address = 'AA#BB#CC#DD#EE#FF';
+if(MACAddress.validate(address, delimiter: delimiter)) {
+    MACAddress mac = MACAddress(address, delimiter: delimiter);
     //Continue execution
 } else {
     // Handle invalid address case
@@ -70,6 +81,16 @@ if(MACAddress.validate(mac) && IPv4Address.validate(ipv4)) {
 }
 ```
 
+You can also optionally create a `WakeOnLAN` instance with IPv4 and MAC address strings with the `withString(ipv4, mac, { port })` factory constructor. Note that the MAC address does not support custom delimiters with this factory and must be separated by colons (:).
+
+```dart
+String mac = 'AA:BB:CC:DD:EE:FF';
+String ipv4 = '192.168.1.255';
+WakeOnLAN wol = WakeOnLAN.fromString(ipv4, mac);
+await wol.wake().then(() => print('sent'));
+}
+```
+
 ## Web Support
 
 Wake on LAN functionality utilizes [User Datagram Protocol (UDP)](https://en.wikipedia.org/wiki/User_Datagram_Protocol) which is not available in the browser because of security constraints.
@@ -78,6 +99,6 @@ Wake on LAN functionality utilizes [User Datagram Protocol (UDP)](https://en.wik
 
 Because wake-on-LAN packets are sent over UDP, beyond the successful creation of a datagram socket and sending the data over the network, there is no way to confirm that the machine has been awoken beyond pinging the machine after waking it (**This functionality is not implemented in this package**). This is because of the nature of UDP sockets which do not need to establish the connection for the data to be sent.
 
-[license-shield]: https://img.shields.io/github/license/JagandeepBrar/wake-on-lan?style=for-the-badge
+[license-shield]: https://img.shields.io/github/license/ProjectVagabond/wake-on-lan?style=for-the-badge
 [pubdev]: https://pub.dev/packages/wake_on_lan/
 [pubdev-shield]: https://img.shields.io/pub/v/wake_on_lan.svg?style=for-the-badge

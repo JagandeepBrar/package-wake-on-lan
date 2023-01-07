@@ -14,11 +14,11 @@ void _getters() {
     IPv4Address ipv4 = IPv4Address('192.168.1.1');
     test('macAddress', () {
       WakeOnLAN wol = WakeOnLAN(ipv4, mac);
-      expect(wol.macAddress, mac.address);
+      expect(wol.macAddress, mac);
     });
     test('ipv4Address', () {
       WakeOnLAN wol = WakeOnLAN(ipv4, mac);
-      expect(wol.ipv4Address, ipv4.address);
+      expect(wol.ipv4Address, ipv4);
     });
     test('port (undefined)', () {
       WakeOnLAN wol = WakeOnLAN(ipv4, mac);
@@ -33,18 +33,38 @@ void _getters() {
 }
 
 void _constructor() {
-  MACAddress mac = MACAddress('AA:BB:CC:DD:EE:FF');
-  IPv4Address ipv4 = IPv4Address('192.168.1.1');
-  group('Constructor', () {
+  String mac = 'AA:BB:CC:DD:EE:FF';
+  String ip = '192.168.1.1';
+  MACAddress macAddress = MACAddress(mac);
+  IPv4Address ipv4Address = IPv4Address(ip);
+
+  group('Unnamed Factory Constructor', () {
     test('Valid Instance: port undefined', () {
-      expect(WakeOnLAN(ipv4, mac), isA<WakeOnLAN>());
+      expect(WakeOnLAN(ipv4Address, macAddress), isA<WakeOnLAN>());
     });
     test('Valid Instance: port defined', () {
-      expect(WakeOnLAN(ipv4, mac, port: 1234), isA<WakeOnLAN>());
+      expect(WakeOnLAN(ipv4Address, macAddress, port: 1234), isA<WakeOnLAN>());
     });
     test('Invalid Instance: port defined, invalid number', () {
-      expect(() => WakeOnLAN(ipv4, mac, port: 70000),
-          throwsA(isA<AssertionError>()));
+      expect(
+        () => WakeOnLAN(ipv4Address, macAddress, port: 70000),
+        throwsA(isA<AssertionError>()),
+      );
+    });
+  });
+
+  group('fromString Factory Constructor', () {
+    test('Valid Instance: port undefined', () {
+      expect(WakeOnLAN.fromString(ip, mac), isA<WakeOnLAN>());
+    });
+    test('Valid Instance: port defined', () {
+      expect(WakeOnLAN.fromString(ip, mac, port: 1234), isA<WakeOnLAN>());
+    });
+    test('Invalid Instance: port defined, invalid number', () {
+      expect(
+        () => WakeOnLAN.fromString(ip, mac, port: 70000),
+        throwsA(isA<AssertionError>()),
+      );
     });
   });
 }
