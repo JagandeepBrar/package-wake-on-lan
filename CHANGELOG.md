@@ -1,3 +1,7 @@
+# 3.1.0+1
+
+- Updated metadata
+
 # 3.1.0
 
 - feat: Support custom delimiters for MAC addresses
