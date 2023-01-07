@@ -99,6 +99,6 @@ Wake on LAN functionality utilizes [User Datagram Protocol (UDP)](https://en.wik
 
 Because wake-on-LAN packets are sent over UDP, beyond the successful creation of a datagram socket and sending the data over the network, there is no way to confirm that the machine has been awoken beyond pinging the machine after waking it (**This functionality is not implemented in this package**). This is because of the nature of UDP sockets which do not need to establish the connection for the data to be sent.
 
-[license-shield]: https://img.shields.io/github/license/ProjectVagabond/dart-wake-on-lan?style=for-the-badge
+[license-shield]: https://img.shields.io/github/license/RoninComputer/dart-wake-on-lan?style=for-the-badge
 [pubdev]: https://pub.dev/packages/wake_on_lan/
 [pubdev-shield]: https://img.shields.io/pub/v/wake_on_lan.svg?style=for-the-badge
