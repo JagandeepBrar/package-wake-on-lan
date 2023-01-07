@@ -2,11 +2,9 @@
 ///
 /// The class has a static function, `validate(String address)` which allows easy validation that an IPv4 address string is correctly formatted.
 class IPv4Address {
-  static const String _regex =
-      r"\b((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.|$)){4}\b";
-  final String _address;
+  final String address;
 
-  IPv4Address._internal(this._address);
+  IPv4Address._internal(this.address);
 
   /// Creates [IPv4Address] from string [address].
   ///
@@ -20,18 +18,19 @@ class IPv4Address {
     if (!IPv4Address.validate(address)) {
       throw FormatException('Not a valid IPv4 address string');
     }
+
     return IPv4Address._internal(address);
   }
-
-  /// String representation of the address
-  String get address => _address;
 
   /// Validate that an IPv4 address in string [address] is correctly formatted.
   ///
   /// Returns [true] on a valid address, [false] on a poorly formatted [address].
   static bool validate(String? address) {
     if (address == null) return false;
-    RegExp exp = RegExp(_regex);
+
+    final regex = r"\b((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.|$)){4}\b";
+    RegExp exp = RegExp(regex);
+
     return exp.hasMatch(address);
   }
 }

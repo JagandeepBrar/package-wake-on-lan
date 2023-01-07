@@ -3,41 +3,46 @@ import 'package:convert/convert.dart';
 /// [MACAddress] helps ensure that your MAC address has been formatted correctly.
 ///
 /// The class has a static function, `validate(String address)` which allows easy validation that a MAC address string is correctly formatted.
-///
-/// **The MAC address must be delimited by colons (:) between each hexidecimal octet.**
 class MACAddress {
-  static const String _regex = r"^([0-9A-Fa-f]{2}[:]){5}([0-9A-Fa-f]{2})$";
-  String _address;
-  List<int> _bytes;
+  final String address;
+  final String delimiter;
+  final List<int> bytes;
 
-  MACAddress._internal(this._address, this._bytes);
+  MACAddress._internal(this.address, this.delimiter, this.bytes);
 
   /// Creates [MACAddress] from the string [address].
   ///
   /// The address should first be validated using the static function [MACAddress.validate(address)].
   /// On an invalidly formatted [address] string, [FormatException] will be thrown.
-  factory MACAddress(String address) {
-    if (!MACAddress.validate(address)) {
+  factory MACAddress(
+    String address, {
+    String delimiter = ':',
+  }) {
+    if (!MACAddress.validate(address, delimiter: delimiter)) {
       throw FormatException('Not a valid MAC address string');
     }
-    List<int> bytes =
-        address.split(":").map((octet) => hex.decode(octet)[0]).toList();
-    return MACAddress._internal(address, bytes);
+
+    List<String> split = address.split(delimiter);
+    List<int> bytes = split.map((octet) => hex.decode(octet)[0]).toList();
+
+    return MACAddress._internal(address, delimiter, bytes);
   }
 
-  /// String representation of the address
-  String get address => _address;
-
-  /// Byte representation of the address
-  List<int> get bytes => _bytes;
-
   /// Validate that a MAC address in string [address] is correctly formatted.
-  /// Expects that the delimiter between each hex octet is a colon (:).
+  /// By default the delimiter between each hex octet is expected to be a colon (:).
+  /// You can set a custom delimiter by setting the [delimiter] parameter.
   ///
   /// Returns [true] on a valid address, [false] on a poorly formatted [address].
-  static bool validate(String? address) {
+  static bool validate(
+    String? address, {
+    String delimiter = ':',
+  }) {
     if (address == null) return false;
-    RegExp exp = RegExp(_regex);
+
+    final delim = delimiter.split('').map((c) => '\\$c').toList().join();
+    final regex = r'^([0-9A-Fa-f]{2}' + delim + r'){5}([0-9A-Fa-f]{2})$';
+    RegExp exp = RegExp(regex);
+
     return exp.hasMatch(address);
   }
 }
