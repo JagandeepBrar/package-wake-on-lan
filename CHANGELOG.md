@@ -1,3 +1,7 @@
+# 3.1.0+4
+
+- fix: typo in README.md
+
 # 3.1.0+3
 
 - Added GitHub workflow for publishing
