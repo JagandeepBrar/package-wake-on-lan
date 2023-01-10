@@ -87,7 +87,7 @@ void _functionMagicPacket() {
   group('Function: .magicPacket()', () {
     MACAddress mac = MACAddress('AA:BB:CC:DD:EE:FF');
     IPv4Address ipv4 = IPv4Address('192.168.1.1');
-    const _prebuiltPacket = [
+    const prebuiltPacket = [
       // 6 0xFF (255) bytes
       255, 255, 255, 255, 255, 255,
       // 16 instances of the MAC Address AA:BB:CC:DD:EE:FF
@@ -111,7 +111,7 @@ void _functionMagicPacket() {
     ];
     test('Check if the array is built correctly', () {
       WakeOnLAN wol = WakeOnLAN(ipv4, mac);
-      expect(wol.magicPacket(), _prebuiltPacket);
+      expect(wol.magicPacket(), prebuiltPacket);
     });
   });
 }
