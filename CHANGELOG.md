@@ -1,3 +1,7 @@
+# 3.1.0+3
+
+- Added GitHub workflow for publishing
+
 # 3.1.0+2
 
 - Updated metadata
