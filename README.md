@@ -35,9 +35,9 @@ if(IPv4Address.validate(address)) {
 
 `MACAddress` is a helper class to ensure that your MAC address has been formatted correctly.
 
-The class has a static function, `validate(String address)` which allows easy validation that a MAC address string is correctly formatted.
+The class has a static function, `validate(String address, { delimiter })` which allows easy validation that a MAC address string is correctly formatted.
 
-Create a `MACAddress` instance by using `MACAddress(address)` where `address` is a string representation of the address. The factory will call the validation function mentioned above, but will throw a `FormatException` on a poorly constructed string, so it is recommended to validate it first.
+Create a `MACAddress` instance by using `MACAddress(address, { delimiter })` where `address` is a string representation of the address. The factory will call the validation function mentioned above, but will throw a `FormatException` on a poorly constructed string, so it is recommended to validate it first.
 
 ```dart
 String address = 'AA:BB:CC:DD:EE:FF';
@@ -81,7 +81,7 @@ if(MACAddress.validate(mac) && IPv4Address.validate(ipv4)) {
 }
 ```
 
-You can also optionally create a `WakeOnLAN` instance with IPv4 and MAC address strings with the `withString(ipv4, mac, { port })` factory constructor. Note that the MAC address does not support custom delimiters with this factory and must be separated by colons (:).
+You can also optionally create a `WakeOnLAN` instance with IPv4 and MAC address strings with the `fromString(ipv4, mac, { port })` factory constructor. Note that the MAC address does not support custom delimiters with this factory and must be separated by colons (:).
 
 ```dart
 String mac = 'AA:BB:CC:DD:EE:FF';
