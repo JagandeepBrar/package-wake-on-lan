@@ -1,3 +1,7 @@
+# 3.1.0+5
+
+- Utilize official Dart publishing workflow
+
 # 3.1.0+4
 
 - fix: typo in README.md

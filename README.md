@@ -3,7 +3,7 @@
 [![Pubdev][pubdev-shield]][pubdev]
 ![License][license-shield]
 
-Dart library package to easily send [Wake-on-LAN](https://en.wikipedia.org/wiki/Wake-on-LAN) magic packets to devices on your local network.
+Dart library package to easily send [Wake-on-LAN][wiki-wol] magic packets to devices on your local network.
 
 ## Getting Started
 
@@ -19,7 +19,7 @@ import 'package:wake_on_lan/wake_on_lan.dart';
 
 The class has a static function, `validate(String address)` which allows easy validation that an IPv4 address string is correctly formatted.
 
-Create an `IPv4Address` instance by using `IPv4Address(address)` where `address` is a string representation of the broadcast address of the network ([easily find your broadcast address using this tool](https://remotemonitoringsystems.ca/broadcast.php)). The factory will call the validation function mentioned above, but will throw a `FormatException` on a poorly constructed string, so it is recommended to validate it first.
+Create an `IPv4Address` instance by using `IPv4Address(address)` where `address` is a string representation of the broadcast address of the network ([easily find your broadcast address using this tool][broadcast-tool]). The factory will call the validation function mentioned above, but will throw a `FormatException` on a poorly constructed string, so it is recommended to validate it first.
 
 ```dart
 String address = '192.168.1.1';
@@ -93,12 +93,15 @@ await wol.wake().then(() => print('sent'));
 
 ## Web Support
 
-Wake on LAN functionality utilizes [User Datagram Protocol (UDP)](https://en.wikipedia.org/wiki/User_Datagram_Protocol) which is not available in the browser because of security constraints.
+Wake on LAN functionality utilizes the [User Datagram Protocol (UDP)][wiki-udp] which is not available in the browser because of security constraints.
 
 ## Notes
 
 Because wake-on-LAN packets are sent over UDP, beyond the successful creation of a datagram socket and sending the data over the network, there is no way to confirm that the machine has been awoken beyond pinging the machine after waking it (**This functionality is not implemented in this package**). This is because of the nature of UDP sockets which do not need to establish the connection for the data to be sent.
 
+[wiki-wol]: https://en.wikipedia.org/wiki/Wake-on-LAN
+[wiki-udp]: https://en.wikipedia.org/wiki/User_Datagram_Protocol
+[broadcast-tool]: https://remotemonitoringsystems.ca/broadcast.php
 [license-shield]: https://img.shields.io/github/license/RoninComputer/dart-wake-on-lan?style=for-the-badge
 [pubdev]: https://pub.dev/packages/wake_on_lan/
 [pubdev-shield]: https://img.shields.io/pub/v/wake_on_lan.svg?style=for-the-badge
