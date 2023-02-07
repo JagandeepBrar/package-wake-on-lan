@@ -1,3 +1,7 @@
+# 3.1.0+6
+
+- Update metadata
+
 # 3.1.0+5
 
 - Utilize official Dart publishing workflow
