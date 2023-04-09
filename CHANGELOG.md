@@ -1,171 +1,59 @@
-# 3.1.0+6
+# 3.1.1
 
-- Update metadata
-
-# 3.1.0+5
-
-- Utilize official Dart publishing workflow
-
-# 3.1.0+4
-
-- fix: typo in README.md
-
-# 3.1.0+3
-
-- Added GitHub workflow for publishing
-
-# 3.1.0+2
-
-- Updated metadata
-
-# 3.1.0+1
-
-- Updated metadata
+- chore: update publishing workflow
 
 # 3.1.0
 
 - feat: Support custom delimiters for MAC addresses
 - feat: Support instantiating a WakeOnLAN instance by strings using the `fromString` factory
-- Updated metadata
+- chore: updated metadata
 
 # 3.0.0
 
-- BREAKING: Remove factory `IPv4Address.from(...)`, now instantiated with just `IPv4Address(...)`
-- BREAKING: Remove factory `MACAddress.from(...)`, now instantiated with just `MACAddress(...)`
-- BREAKING: Remove factory `WakeOnLAN.from(...)`, now instantiated with just `WakeOnLAN(...)`
-- Updated documentation
-
-# 2.0.3+2
-
-- Updated metadata
-
-# 2.0.3+1
-
-- Run Dart analyzer
+- **BREAKING**: refactor: remove factory `IPv4Address.from(...)`, now instantiated with just `IPv4Address(...)`
+- **BREAKING**: refactor: remove factory `MACAddress.from(...)`, now instantiated with just `MACAddress(...)`
+- **BREAKING**: refactor: remove factory `WakeOnLAN.from(...)`, now instantiated with just `WakeOnLAN(...)`
+- chore: updated documentation
 
 # 2.0.3
 
-- Ran Dart formatter
-- Updated dependencies
-
-# 2.0.2+1
-
-- Fixed README.md
+- chore: updated dependencies
 
 # 2.0.2
 
-- Updated package metadata & owner
-
-# 2.0.1+3
-
-- Updated package metadata
-
-# 2.0.1+2
-
-- Updated packages
-- Updated package metadata
-
-# 2.0.1+1
-
-- Updated packages
+- chore: updated metadata
 
 # 2.0.1
 
-- Fix for IPv4 address getter being a nullable type
+- fix: IPv4 address getter is no longer a nullable type
 
 # 2.0.0
 
-- Updated to support null-safety/NNBD.
-
-# 1.1.2+1
-
-- Updated packages
+- feat: support null-safety/NNBD
 
 # 1.1.2
 
-- Updated packages
-
-# 1.1.1+6
-
-- Fixed formatting of README that caused an invalid URL link
-
-# 1.1.1+5
-
-- Updated GitHub repository information
-
-# 1.1.1+4
-
-- Updated LICENSE link for shield
-
-# 1.1.1+3
-
-- Updated pubspec.yaml to include new repository links
-
-# 1.1.1+2
-
-- Improved documentation relating to `IPv4Address` and which address to use within your network
-
-# 1.1.1+1
-
-- Updated README.md
-- Updated repository information
+- chore: updated dependencies
 
 # 1.1.1
 
-- Improved commenting
-- Added descriptors for all classes
-
-# 1.1.0+6
-
-- Updated pubspec.yaml for new GitHub URLs
-
-# 1.1.0+5
-
-- Updated README.md
-
-# 1.1.0+4
-
-- Updated README.md
-
-# 1.1.0+3
-
-- Updated README.md
-- Updated example/main.dart
-
-# 1.1.0+2
-
-- Fixed code coverage shield
-
-# 1.1.0+1
-
-- Updated repository, homepage, and issues links
+- refactor: improve code documentation
 
 # 1.1.0
 
-- BREAKING: `magicPacket` getter is now a function, `magicPacket()`
-- Added test cases, now achieved 100% coverage
+- **BREAKING**: refactor: `magicPacket` getter is now a function, `magicPacket()`
+- tests: added test cases achieving 100% coverage
 
 # 1.0.2
 
-#### NEW
-
-- Added shields to README.md
-- Added tests
-
-#### FIXES
-
-- IPv4Address: Fixed error on null string passed to validate()
-- MACAddress: Fixed error on null string passed to validate()
-
-# 1.0.1+1
-
-- Cleaned up README.md
+- fix: allow passing a null string to IPv4 and MAC validators
+- tests: added tests
 
 # 1.0.1
 
-- Added example: `example/main.dart`
-- Cleaned code to improve health analysis
+- chore: added example
+- refactor: improve health analysis
 
 # 1.0.0
 
-- Initial Release
+- initial release
