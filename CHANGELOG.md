@@ -1,3 +1,7 @@
+# 3.1.1+1
+
+- chore: update metadata
+
 # 3.1.1
 
 - chore: update publishing workflow
