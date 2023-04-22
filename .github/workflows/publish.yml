@@ -8,4 +8,4 @@ on:
 jobs:
   publish:
     name: Publish
-    uses: RoninComputer/.github/.github/workflows/deploy-dart-package.yml@main
+    uses: JagandeepBrar/github-dart-workflows/.github/workflows/deploy-dart-package.yml@main

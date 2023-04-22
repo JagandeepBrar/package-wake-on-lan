@@ -103,5 +103,5 @@ Because wake-on-LAN packets are sent over UDP, beyond the successful creation of
 [link-pubdev]: https://pub.dev/packages/wake_on_lan/
 [link-wiki-udp]: https://en.wikipedia.org/wiki/User_Datagram_Protocol
 [link-wiki-wol]: https://en.wikipedia.org/wiki/Wake-on-LAN
-[image-license]: https://img.shields.io/github/license/RoninComputer/package-wake-on-lan?style=for-the-badge
+[image-license]: https://img.shields.io/github/license/JagandeepBrar/package-wake-on-lan?style=for-the-badge
 [image-pubdev]: https://img.shields.io/pub/v/wake_on_lan.svg?style=for-the-badge
