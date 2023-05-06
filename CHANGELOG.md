@@ -1,3 +1,8 @@
+# 3.2.0
+
+- feat: allow repeatedly sending the packet in a single socket connection (Thanks to @AlexV525)
+- feat: support constructing an `IPv4Address` instance from a host URL (Thanks to @AlexV525)
+
 # 3.1.1+1
 
 - chore: update metadata

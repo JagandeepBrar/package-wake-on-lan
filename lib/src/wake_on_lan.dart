@@ -68,7 +68,9 @@ class WakeOnLAN {
   /// The socket will then be used to send the constructed packet to the address in [IPv4Address] and [port].
   ///
   /// Increase the [repeat] times in case you want to ensure the packet can be sent successfully.
-  Future<void> wake({int repeat = 1}) async {
+  Future<void> wake({
+    int repeat = 1,
+  }) async {
     return RawDatagramSocket.bind(InternetAddress.anyIPv4, 0).then(
       (socket) async {
         final addr = ipv4Address.address;

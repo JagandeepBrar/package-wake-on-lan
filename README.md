@@ -31,6 +31,8 @@ if(IPv4Address.validate(address)) {
 }
 ```
 
+You can also optionally create an `IPv4Address` instance using the `fromHost(host, { typePredicate })` static method which will lookup the host and use the associated IPv4 address. By default this will choose the first associated IPv4 address found in the lookup but you can further control which IPv4 address is chosen by defining the `typePredicate` parameter.
+
 #### Create MAC Address
 
 `MACAddress` is a helper class to ensure that your MAC address has been formatted correctly.
@@ -68,7 +70,7 @@ if(MACAddress.validate(address, delimiter: delimiter)) {
 
 Create a `WakeOnLAN` instance by using `WakeOnLAN(ipv4, mac, { port })` where `ipv4` is an `IPv4Address` instance, `mac` is a `MACAddress` instance, and `port` is an optional integer parameter for which port the packet should be sent over (defaulted to the specification standard port, 9).
 
-Once created, call the function `wake()` on the `WakeOnLAN` object to send the packet.
+Once created, call the function `wake({ repeat })` on the `WakeOnLAN` object to send the packet. You may optionally set the `repeat` integer parameter to repeatedly send the Wake on LAN packet (with a 100ms delay between repeats) before closing the socket connection.
 
 ```dart
 String mac = 'AA:BB:CC:DD:EE:FF';
