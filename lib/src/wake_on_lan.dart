@@ -66,14 +66,24 @@ class WakeOnLAN {
   ///
   /// A [RawDatagramSocket] will be created and bound to any IPv4 address and port 0.
   /// The socket will then be used to send the constructed packet to the address in [IPv4Address] and [port].
-  Future<void> wake() async {
-    return RawDatagramSocket.bind(InternetAddress.anyIPv4, 0).then((socket) {
-      final addr = ipv4Address.address;
-      final iAddr = InternetAddress(addr, type: InternetAddressType.IPv4);
+  ///
+  /// Increase the [repeat] times in case you want to ensure the packet can be sent successfully.
+  Future<void> wake({int repeat = 1}) async {
+    return RawDatagramSocket.bind(InternetAddress.anyIPv4, 0).then(
+      (socket) async {
+        final addr = ipv4Address.address;
+        final iAddr = InternetAddress(addr, type: InternetAddressType.IPv4);
 
-      socket.broadcastEnabled = true;
-      socket.send(magicPacket(), iAddr, port);
-      socket.close();
-    });
+        socket.broadcastEnabled = true;
+        for (int i = 0; i < repeat; i++) {
+          if (i != 0) {
+            // Manually await for 100 milliseconds.
+            await Future.delayed(const Duration(milliseconds: 100));
+          }
+          socket.send(magicPacket(), iAddr, port);
+        }
+        socket.close();
+      },
+    );
   }
 }
