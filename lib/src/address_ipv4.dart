@@ -1,3 +1,5 @@
+import 'dart:io';
+
 /// [IPv4Address] helps ensure that your IPv4 address has been formatted correctly.
 ///
 /// The class has a static function, `validate(String address)` which allows easy validation that an IPv4 address string is correctly formatted.
@@ -20,6 +22,29 @@ class IPv4Address {
     }
 
     return IPv4Address._internal(address);
+  }
+
+  /// Creates [IPv4Address] from string [host].
+  ///
+  /// This would be useful if your Wake on LAN port has been exposed
+  /// through network that can be access from WAN.
+  ///
+  /// By default, the method will choose the first address returned
+  /// from the lookup result, use [typePredicate] to choose
+  /// which is your expected host if needed.
+  static Future<IPv4Address> fromHost(
+    String host, {
+    InternetAddress Function(List<InternetAddress>)? typePredicate,
+  }) async {
+    final result = await InternetAddress.lookup(
+      host,
+      type: InternetAddressType.IPv4,
+    );
+    if (result.isEmpty) {
+      throw StateError('No address was associated with the host ($host).');
+    }
+    final address = typePredicate?.call(result) ?? result.first;
+    return IPv4Address(address.address);
   }
 
   /// Validate that an IPv4 address in string [address] is correctly formatted.

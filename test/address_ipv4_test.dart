@@ -48,6 +48,10 @@ void _constructor() {
       String address = '192.168.1.1';
       expect(IPv4Address(address), equals(isA<IPv4Address>()));
     });
+    test('Construct from host', () async {
+      String host = 'pub.dev';
+      expect(await IPv4Address.fromHost(host), isA<IPv4Address>());
+    });
     test('Invalid Instance: Empty String', () {
       String address = '';
       expect(() => IPv4Address(address), throwsA(isA<FormatException>()));
