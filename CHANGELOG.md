@@ -1,3 +1,7 @@
+# 3.2.0+1
+
+- chore: update Dart environment bounds
+
 # 3.2.0
 
 - feat: allow repeatedly sending the packet in a single socket connection (Thanks to @AlexV525)
