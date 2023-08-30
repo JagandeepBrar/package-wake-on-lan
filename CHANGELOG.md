@@ -1,12 +1,18 @@
+# 4.1.0
+
+- feat: support passing and including a SecureON password when waking the machine
+- chore: update documentation
+
 # 4.0.0
 
-- **BREAKING**: Minimum Dart constraint set to 3.0.0
-- **BREAKING**: `WakeOnLAN.fromString(...)` factory has been removed
-- **BREAKING**: `IPv4Address` has been renamed to `IPAddress`
-- **BREAKING**: Static functions `validate(...)` on `IPAddress` and `MACAddress` now return a Dart 3 record with the validation state and validation error (on a validation failure)
-- `IPAddress` now supports IPv6 addresses by setting the `type` property
-- Allow setting the repeat delay alongside the repeat count when waking the machine
-- Update documentation
+- **BREAKING**: chore: minimum Dart constraint set to 3.0.0
+- **BREAKING**: fix: `WakeOnLAN.fromString(...)` factory has been removed
+- **BREAKING**: refactor: `IPv4Address` has been renamed to `IPAddress`
+- **BREAKING**: refactor: static functions `validate(...)` on `IPAddress` and `MACAddress` now return a Dart 3 record with the validation state and validation error (on a validation failure)
+- **BREAKING**: refactor: `typePredicate` has been renamed to `hostPredicate` for the factory constructor `IPAddress.fromHost(...)`
+- feat: `IPAddress` now supports IPv6 addresses by setting the `type` property
+- feat: allow setting the repeat delay alongside the repeat count when waking the machine
+- chore: update documentation
 
 # 3.2.0+1
 
