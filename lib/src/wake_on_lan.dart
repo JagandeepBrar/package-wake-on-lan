@@ -1,45 +1,37 @@
 import 'dart:io';
+import 'extensions/internet_address_type.dart';
+import 'ip_address.dart';
+import 'mac_address.dart';
 
-import './address_ipv4.dart';
-import './address_mac.dart';
+const _maxPort = 65535;
 
-/// [WakeOnLAN] handles sending the actual wake-on-LAN magic packet to your network.
 class WakeOnLAN {
-  static const _maxPort = 65535;
-  final IPv4Address ipv4Address;
+  final IPAddress ipAddress;
   final MACAddress macAddress;
   final int port;
 
-  WakeOnLAN._internal(this.ipv4Address, this.macAddress, this.port);
+  WakeOnLAN._internal({
+    required this.ipAddress,
+    required this.macAddress,
+    required this.port,
+  });
 
-  /// Creates [WakeOnLAN] from an [IPv4Address], [MACAddress], and optionally defined [port].
+  /// Creates [WakeOnLAN] from an [IPAddress], [MACAddress], and optionally defined [port].
   ///
-  /// The port is defaulted to 9, the standard port for Wake on LAN functionality.
+  /// [port] by default is set to 9, the specification port for Wake-on-LAN functionality.
   factory WakeOnLAN(
-    IPv4Address ipv4,
+    IPAddress ip,
     MACAddress mac, {
     int port = 9,
   }) {
-    assert(port <= _maxPort);
-    return WakeOnLAN._internal(ipv4, mac, port);
-  }
+    if (port > _maxPort) {
+      throw StateError('Port must be under $_maxPort');
+    }
 
-  /// Creates [WakeOnLAN] from an IPv4 address string and MAC address string, and optionally defined [port].
-  ///
-  /// This allows directly creating the class without needing to instantiate [IPv4Address] and [MACAddress] instances.
-  /// The MAC address must be delimited with colons (:).
-  ///
-  /// The port is defaulted to 9, the standard port for Wake on LAN functionality.
-  factory WakeOnLAN.fromString(
-    String ipv4,
-    String mac, {
-    int port = 9,
-  }) {
-    assert(port <= _maxPort);
     return WakeOnLAN._internal(
-      IPv4Address(ipv4),
-      MACAddress(mac),
-      port,
+      ipAddress: ip,
+      macAddress: mac,
+      port: port,
     );
   }
 
@@ -62,28 +54,33 @@ class WakeOnLAN {
     return data;
   }
 
-  /// Sends the wake on LAN packets to the [IPv4Address], [MACAddress], and [port] defined on creation.
+  /// Sends the wake on LAN packets to the [IPAddress], [MACAddress], and [port] defined on creation.
   ///
-  /// A [RawDatagramSocket] will be created and bound to any IPv4 address and port 0.
-  /// The socket will then be used to send the constructed packet to the address in [IPv4Address] and [port].
+  /// A [RawDatagramSocket] will be created and bound to any IPv4/IPv6 address and port 0.
+  /// The socket will then be used to send the constructed packet to the [IPAddress] and [port].
   ///
-  /// Increase the [repeat] times in case you want to ensure the packet can be sent successfully.
+  /// Increase [repeat] to send the magic packet [repeat] number of times at a delay of [repeatDelay].
+  /// This can be used in the case you want to ensure the packet has be sent and received successfully.
   Future<void> wake({
     int repeat = 1,
+    Duration repeatDelay = const Duration(milliseconds: 100),
   }) async {
-    return RawDatagramSocket.bind(InternetAddress.anyIPv4, 0).then(
+    return RawDatagramSocket.bind(ipAddress.type.bindAddress, 0).then(
       (socket) async {
-        final addr = ipv4Address.address;
-        final iAddr = InternetAddress(addr, type: InternetAddressType.IPv4);
+        final iAddr = InternetAddress(ipAddress.address, type: ipAddress.type);
+        final packet = magicPacket();
 
-        socket.broadcastEnabled = true;
+        if (ipAddress.type == InternetAddressType.IPv4) {
+          socket.broadcastEnabled = true;
+        }
+
         for (int i = 0; i < repeat; i++) {
           if (i != 0) {
-            // Manually await for 100 milliseconds.
-            await Future.delayed(const Duration(milliseconds: 100));
+            await Future.delayed(repeatDelay);
           }
-          socket.send(magicPacket(), iAddr, port);
+          socket.send(packet, iAddr, port);
         }
+
         socket.close();
       },
     );

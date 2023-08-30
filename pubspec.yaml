@@ -5,9 +5,9 @@ homepage: https://github.com/JagandeepBrar/package-wake-on-lan
 repository: https://github.com/JagandeepBrar/package-wake-on-lan
 issue_tracker: https://github.com/JagandeepBrar/package-wake-on-lan/issues
 environment:
-  sdk: ">=2.12.0 <4.0.0"
+  sdk: ">=3.0.0 <4.0.0"
 dependencies:
   convert: ^3.0.1
 dev_dependencies:
   lints: ^2.1.1
-  test: ^1.24.4
+  test: ^1.24.6

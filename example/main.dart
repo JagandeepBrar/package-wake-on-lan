@@ -1,18 +1,25 @@
 import 'package:wake_on_lan/wake_on_lan.dart';
 
 void main() async {
-  // Create the IPv4  broadcast address
-  String ip = '192.168.1.255';
+  String ipv4 = '192.168.1.255';
   String mac = 'AA:BB:CC:DD:EE:FF';
 
-  // Validate that the two strings are formatted correctly
-  if (!IPv4Address.validate(ip)) return;
-  if (!MACAddress.validate(mac)) return;
+  // Validate that the IP address is correctly formatted
+  final ipValidation = IPAddress.validate(ipv4);
+  if (!ipValidation.state) {
+    throw ipValidation.error!;
+  }
 
-  // Create the IPv4 and MAC objects
-  IPv4Address ipv4Address = IPv4Address(ip);
+  // Validate that the MAC address is correctly formatted
+  final macValidation = MACAddress.validate(mac);
+  if (!macValidation.state) {
+    throw macValidation.error!;
+  }
+
+  // Create the IP and MAC addresses
+  IPAddress ipv4Address = IPAddress(ipv4);
   MACAddress macAddress = MACAddress(mac);
 
-  // Send the WOL packet
+  // Send the Wake-on-LAN packet
   WakeOnLAN(ipv4Address, macAddress).wake();
 }

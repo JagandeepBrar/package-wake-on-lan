@@ -7,43 +7,43 @@ Dart library package to easily send [Wake-on-LAN][link-wiki-wol] magic packets t
 
 ## Getting Started
 
-`wake_on_lan` has three core classes for functionality, `IPv4Address`, `MACAddress`, and `WakeOnLAN`. All classes are exported in the main file, to import:
+`wake_on_lan` has three core classes for functionality, `IPAddress`, `MACAddress`, and `WakeOnLAN`. All classes are exported in the main file, to import:
 
 ```dart
 import 'package:wake_on_lan/wake_on_lan.dart';
 ```
 
-#### Create an IPv4 Address
+#### Create an IP Address
 
-`IPv4Address` is a helper class to ensure that your IPv4 address has been formatted correctly.
+`IPAddress` has a static function, `validate(address, { type })` which allows for easy validation that an IP address string is correctly formatted. An IPv6 address can be used, but `type` must be set to `InternetAddressType.IPv6` during validation of the address and construction of the class.
 
-The class has a static function, `validate(String address)` which allows easy validation that an IPv4 address string is correctly formatted.
-
-Create an `IPv4Address` instance by using `IPv4Address(address)` where `address` is a string representation of the broadcast address of the network ([easily find your broadcast address using this tool][link-broadcast-tool]). The factory will call the validation function mentioned above, but will throw a `FormatException` on a poorly constructed string, so it is recommended to validate it first.
+Create an `IPAddress` instance by using `IPAddress(address, { type })` where `address` is a string representation of the [broadcast address][link-broadcast-tool] (IPv4) or multicast address (IPv6) of the network and `type` is the internet address type (defaults to `InternetAddressType.IPv4`). The constructor will call the validation function mentioned above, but will throw the exception on a poorly constructed address string, so it is recommended to validate it first.
 
 ```dart
-String address = '192.168.1.1';
-if(IPv4Address.validate(address)) {
-    IPv4Address ipv4 = IPv4Address(address);
-    //Continue execution
+String ipv4 = '192.168.1.1';
+
+final validation = IPAddress.validate(ipv4);
+if(validation.state) {
+    IPAddress ip = IPAddress(ipv4);
+    // Continue execution
 } else {
-    // Handle invalid address case
+    // Handle invalid the address case - access the error that was thrown during validation via `validation.error`.
 }
 ```
 
-You can also optionally create an `IPv4Address` instance using the `fromHost(host, { typePredicate })` static method which will lookup the host and use the associated IPv4 address. By default this will choose the first associated IPv4 address found in the lookup but you can further control which IPv4 address is chosen by defining the `typePredicate` parameter.
+You can also optionally create an `IPAddress` instance using the `fromHost(host, { type, hostPredicate })` static method which will lookup the host and use the associated IP address. By default the function will select and return the first address returned within the lookup. `hostPredicate` can be set to choose which host address is selected and returned.
 
 #### Create MAC Address
 
-`MACAddress` is a helper class to ensure that your MAC address has been formatted correctly.
+`MACAddress` has a static function, `validate(String address, { delimiter })` which allows easy validation that a MAC address string is correctly formatted.
 
-The class has a static function, `validate(String address, { delimiter })` which allows easy validation that a MAC address string is correctly formatted.
-
-Create a `MACAddress` instance by using `MACAddress(address, { delimiter })` where `address` is a string representation of the address. The factory will call the validation function mentioned above, but will throw a `FormatException` on a poorly constructed string, so it is recommended to validate it first.
+Create a `MACAddress` instance by using `MACAddress(address, { delimiter })` where `address` is a string representation of the address. The constructor will call the validation function mentioned above, but will throw the exception on a poorly constructed address string, so it is recommended to validate it first.
 
 ```dart
 String address = 'AA:BB:CC:DD:EE:FF';
-if(MACAddress.validate(address)) {
+
+final validation = MACAddress.validate(address);
+if(validation.state) {
     MACAddress mac = MACAddress(address);
     //Continue execution
 } else {
@@ -60,36 +60,29 @@ if(MACAddress.validate(address, delimiter: delimiter)) {
     MACAddress mac = MACAddress(address, delimiter: delimiter);
     //Continue execution
 } else {
-    // Handle invalid address case
+    // Handle invalid the address case - access the error that was thrown during validation via `validation.error`.
 }
 ```
 
-#### Sending Wake-on-LAN Packet
+#### Sending the Wake-on-LAN Packet
 
-`WakeOnLAN` is the class to handle sending the actual wake-on-LAN magic packet to your network.
-
-Create a `WakeOnLAN` instance by using `WakeOnLAN(ipv4, mac, { port })` where `ipv4` is an `IPv4Address` instance, `mac` is a `MACAddress` instance, and `port` is an optional integer parameter for which port the packet should be sent over (defaulted to the specification standard port, 9).
+Create a `WakeOnLAN` instance by using `WakeOnLAN(ip, mac, { port })` where `ip` is an `IPAddress` instance, `mac` is a `MACAddress` instance, and `port` is an optional integer parameter for which port the packet should be sent over (defaulted to the specification standard port, 9).
 
 Once created, call the function `wake({ repeat })` on the `WakeOnLAN` object to send the packet. You may optionally set the `repeat` integer parameter to repeatedly send the Wake on LAN packet (with a 100ms delay between repeats) before closing the socket connection.
 
 ```dart
 String mac = 'AA:BB:CC:DD:EE:FF';
-String ipv4 = '192.168.1.255';
-if(MACAddress.validate(mac) && IPv4Address.validate(ipv4)) {
+String ipv6 = '2001:0DB8:3333:4444:5555:6666:7777:8888';
+
+final macValidation = MACAddress.validate(mac);
+final ipValidation = IPAddress.validate(ipv6, type: InternetAddressType.IPv6);
+
+if(macValidation.state && ipValidation.state) {
     MACAddress macAddress = MACAddress(mac);
-    IPv4Address ipv4Address = IPv4Address(ipv4);
-    WakeOnLAN wol = WakeOnLAN(ipv4Address, macAddress);
-    await wol.wake().then(() => print('sent'));
-}
-```
+    IPAddress ipAddress = IPAddress(ipv6, type: InternetAddressType.IPv6);
+    WakeOnLAN wakeOnLan = WakeOnLAN(ipAddress, macAddress);
 
-You can also optionally create a `WakeOnLAN` instance with IPv4 and MAC address strings with the `fromString(ipv4, mac, { port })` factory constructor. Note that the MAC address does not support custom delimiters with this factory and must be separated by colons (:).
-
-```dart
-String mac = 'AA:BB:CC:DD:EE:FF';
-String ipv4 = '192.168.1.255';
-WakeOnLAN wol = WakeOnLAN.fromString(ipv4, mac);
-await wol.wake().then(() => print('sent'));
+    await wakeOnLan.wake().then(() => print('sent'));
 }
 ```
 
