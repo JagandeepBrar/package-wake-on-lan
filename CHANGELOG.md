@@ -1,3 +1,7 @@
+# 4.1.1
+
+- tests: add tests for SecureONPassword
+
 # 4.1.0
 
 - feat: support passing and including a SecureON password when waking the machine
