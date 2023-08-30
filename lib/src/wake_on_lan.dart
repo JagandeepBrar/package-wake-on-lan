@@ -2,17 +2,20 @@ import 'dart:io';
 import 'extensions/internet_address_type.dart';
 import 'ip_address.dart';
 import 'mac_address.dart';
+import 'secure_on_password.dart';
 
 const _maxPort = 65535;
 
 class WakeOnLAN {
   final IPAddress ipAddress;
   final MACAddress macAddress;
+  final SecureONPassword? secureOnPassword;
   final int port;
 
   WakeOnLAN._internal({
     required this.ipAddress,
     required this.macAddress,
+    required this.secureOnPassword,
     required this.port,
   });
 
@@ -22,6 +25,7 @@ class WakeOnLAN {
   factory WakeOnLAN(
     IPAddress ip,
     MACAddress mac, {
+    SecureONPassword? password,
     int port = 9,
   }) {
     if (port > _maxPort) {
@@ -31,16 +35,20 @@ class WakeOnLAN {
     return WakeOnLAN._internal(
       ipAddress: ip,
       macAddress: mac,
+      secureOnPassword: password,
       port: port,
     );
   }
 
   /// Assembles the magic packet for wake-on-LAN functionality.
   ///
-  /// Total size of the wake-on-LAN magic packet is 102 bytes, or 816 bits.
+  /// Total size of the wake-on-LAN magic packet is 102 bytes (816 bits)
+  /// or 108 bytes (864 bits) with a SecureON password.
   ///
-  /// First 6 bytes (48 bits) are 0xFF (255) with the remaining 96 bytes (768 bits) as the 6 byte (48 bit)
-  /// MAC address repeated 16 times as specified by the wake-on-LAN specification.
+  /// The first 6 bytes (48 bits) are 0xFF (255) with the remaining 96 bytes (768 bits)
+  /// as the 6 byte (48 bit) MAC address repeated 16 times as specified by the
+  /// wake-on-LAN specification. If a SecureON password is supplied,
+  /// 6 additional bytes (48 bits) are appended to the end of the magic packet.
   List<int> magicPacket() {
     List<int> data = [];
 
@@ -49,6 +57,9 @@ class WakeOnLAN {
     }
     for (int j = 0; j < 16; j++) {
       data.addAll(macAddress.bytes);
+    }
+    if (secureOnPassword != null) {
+      data.addAll(secureOnPassword!.bytes);
     }
 
     return data;

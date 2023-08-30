@@ -24,10 +24,10 @@ String ipv4 = '192.168.1.1';
 
 final validation = IPAddress.validate(ipv4);
 if(validation.state) {
-    IPAddress ip = IPAddress(ipv4);
-    // Continue execution
+  IPAddress ip = IPAddress(ipv4);
+  // Continue execution
 } else {
-    // Handle invalid the address case - access the error that was thrown during validation via `validation.error`.
+  // Handle invalid address case - access the error that was thrown during validation via `validation.error`.
 }
 ```
 
@@ -44,10 +44,10 @@ String address = 'AA:BB:CC:DD:EE:FF';
 
 final validation = MACAddress.validate(address);
 if(validation.state) {
-    MACAddress mac = MACAddress(address);
-    //Continue execution
+  MACAddress mac = MACAddress(address);
+  //Continue execution
 } else {
-    // Handle invalid address case
+  // Handle invalid address case - access the error that was thrown during validation via `validation.error`.
 }
 ```
 
@@ -56,39 +56,83 @@ You can optionally pass in a custom `delimiter` when the octets are not separate
 ```dart
 String delimiter = '#';
 String address = 'AA#BB#CC#DD#EE#FF';
-if(MACAddress.validate(address, delimiter: delimiter)) {
-    MACAddress mac = MACAddress(address, delimiter: delimiter);
-    //Continue execution
+
+final validation = MACAddress.validate(address, delimiter: delimiter);
+if(validation.state) {
+  MACAddress mac = MACAddress(address, delimiter: delimiter);
+  //Continue execution
 } else {
-    // Handle invalid the address case - access the error that was thrown during validation via `validation.error`.
+    // Handle invalid address case - access the error that was thrown during validation via `validation.error`.
+}
+```
+
+#### (Optional) Create a SecureON Password
+
+Some newer devices support Wake-on-LAN's SecureON password functionality, which involves including a 6-octet hex password at the end of the magic packet for security and validation before waking the machine.
+
+`SecureONPassword` has a static function, `validate(String password, { delimiter })` which allows easy validation that a SecureON password string is correctly formatted.
+
+Create a `SecureONPassword` instance by using `SecureONPassword(password, { delimiter })` where `password` is a string representation of the SecureON password. The constructor will call the validation function mentioned above, but will throw the exception on a poorly constructed password string, so it is recommended to validate it first.
+
+```dart
+String password = '00:11:22:33:44:55';
+
+final validation = SecureONPassword.validate(password);
+if(validation.state) {
+  SecureONPassword secureOnPassword = SecureONPassword(password);
+  //Continue execution
+} else {
+  // Handle invalid password case - access the error that was thrown during validation via `validation.error`.
+}
+```
+
+You can optionally pass in a custom `delimiter` when the octets are not separated by colons (:). Ensure you pass the custom `delimiter` to both the `validate` function and the factory constructor when instantiating a `SecureONPassword` in this scenario.
+
+```dart
+String delimiter = '#';
+String password = '00#11#22#33#44#55';
+
+final validation = SecureONPassword.validate(password, delimiter: delimiter);
+if(validation.state) {
+  SecureONPassword secureOnPassword = SecureONPassword(password, delimiter: delimiter);
+  //Continue execution
+} else {
+  // Handle invalid password case - access the error that was thrown during validation via `validation.error`.
 }
 ```
 
 #### Sending the Wake-on-LAN Packet
 
-Create a `WakeOnLAN` instance by using `WakeOnLAN(ip, mac, { port })` where `ip` is an `IPAddress` instance, `mac` is a `MACAddress` instance, and `port` is an optional integer parameter for which port the packet should be sent over (defaulted to the specification standard port, 9).
+Create a `WakeOnLAN` instance by using `WakeOnLAN(ip, mac, { password, port })` where `ip` is an `IPAddress` instance, `mac` is a `MACAddress` instance, `password` is an optional `SecureONPassword` instance, and `port` is an optional integer parameter for which port the packet should be sent over (defaulted to the specification standard port, 9).
 
-Once created, call the function `wake({ repeat })` on the `WakeOnLAN` object to send the packet. You may optionally set the `repeat` integer parameter to repeatedly send the Wake on LAN packet (with a 100ms delay between repeats) before closing the socket connection.
+Once created, call the function `wake({ repeat, repeatDelay })` on the `WakeOnLAN` object to send the packet. You may optionally set the `repeat` integer parameter and `repeatDelay` Duration parameter to repeatedly send the Wake-on-LAN packet (with a default delay of 100ms between repeated sends) before closing the socket connection.
 
 ```dart
 String mac = 'AA:BB:CC:DD:EE:FF';
 String ipv6 = '2001:0DB8:3333:4444:5555:6666:7777:8888';
+String password = '00:11:22:33:44:55';
 
 final macValidation = MACAddress.validate(mac);
 final ipValidation = IPAddress.validate(ipv6, type: InternetAddressType.IPv6);
+final passwordValidation = SecureONPassword.validate(password);
 
-if(macValidation.state && ipValidation.state) {
-    MACAddress macAddress = MACAddress(mac);
-    IPAddress ipAddress = IPAddress(ipv6, type: InternetAddressType.IPv6);
-    WakeOnLAN wakeOnLan = WakeOnLAN(ipAddress, macAddress);
+if(macValidation.state && ipValidation.state && passwordValidation.state) {
+  MACAddress macAddress = MACAddress(mac);
+  IPAddress ipAddress = IPAddress(ipv6, type: InternetAddressType.IPv6);
+  SecureONPassword secureOnPassword = SecureONPassword(password);
 
-    await wakeOnLan.wake().then(() => print('sent'));
+  WakeOnLAN wakeOnLan = WakeOnLAN(ipAddress, macAddress, password: secureOnPassword);
+
+  await wakeOnLan.wake(
+    repeat: 5,
+    repeatDelay: const Duration(milliseconds: 500),
+  );
 }
 ```
 
 ## Web Support
 
-Wake on LAN functionality utilizes the [User Datagram Protocol (UDP)][link-wiki-udp] which is not available in the browser because of security constraints.
+Wake-on-LAN functionality utilizes the [User Datagram Protocol (UDP)][link-wiki-udp] which is not available in the browser because of security constraints.
 
 ## Notes
 

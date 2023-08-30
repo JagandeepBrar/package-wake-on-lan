@@ -3,4 +3,5 @@ library wake_on_lan;
 
 export 'src/ip_address.dart';
 export 'src/mac_address.dart';
+export 'src/secure_on_password.dart';
 export 'src/wake_on_lan.dart';
