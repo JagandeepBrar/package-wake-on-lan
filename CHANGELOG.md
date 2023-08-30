@@ -1,3 +1,13 @@
+# 4.0.0
+
+- **BREAKING**: Minimum Dart constraint set to 3.0.0
+- **BREAKING**: `WakeOnLAN.fromString(...)` factory has been removed
+- **BREAKING**: `IPv4Address` has been renamed to `IPAddress`
+- **BREAKING**: Static functions `validate(...)` on `IPAddress` and `MACAddress` now return a Dart 3 record with the validation state and validation error (on a validation failure)
+- `IPAddress` now supports IPv6 addresses by setting the `type` property
+- Allow setting the repeat delay alongside the repeat count when waking the machine
+- Update documentation
+
 # 3.2.0+1
 
 - chore: update Dart environment bounds
