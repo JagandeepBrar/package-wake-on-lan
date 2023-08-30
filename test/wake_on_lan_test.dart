@@ -37,7 +37,7 @@ void _functions() {
   group('Function: .wake()', () {
     MACAddress mac = MACAddress('A4:83:E7:0D:7F:4F');
     IPAddress ip = IPAddress('192.168.99.255');
-    test('Ensure it runs', () async {
+    test('Should run successfully', () async {
       try {
         await WakeOnLAN(ip, mac).wake();
       } catch (error) {
@@ -71,9 +71,20 @@ void _functions() {
       170, 187, 204, 221, 238, 255,
       170, 187, 204, 221, 238, 255,
     ];
-    test('Check if the array is built correctly', () {
-      WakeOnLAN wol = WakeOnLAN(ip, mac);
-      expect(wol.magicPacket(), prebuiltPacket);
+    test('Should build the packet in the correct structure', () {
+      WakeOnLAN wakeOnLan = WakeOnLAN(ip, mac);
+      expect(wakeOnLan.magicPacket(), prebuiltPacket);
+    });
+
+    test('Should append the SecureON password if given', () {
+      final password = '11:22:33:44:55:66';
+      final secureOn = SecureONPassword(password);
+      final wakeOnLan = WakeOnLAN(ip, mac, password: secureOn);
+
+      expect(wakeOnLan.magicPacket(), [
+        ...prebuiltPacket,
+        ...secureOn.bytes,
+      ]);
     });
   });
 }

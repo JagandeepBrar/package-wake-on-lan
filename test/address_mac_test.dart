@@ -50,9 +50,8 @@ void _getters() {
     test('Default Delimiter', () {
       String address = _generateValidAddress();
       List<int> bytes = List.filled(6, _octetDecimal);
-      MACAddress mac = MACAddress(address);
 
-      expect(mac.bytes, bytes);
+      expect(MACAddress(address).bytes, bytes);
     });
 
     test('Custom Delimiter (.)', () {
@@ -65,6 +64,7 @@ void _getters() {
     test('Custom Delimiter (|)', () {
       String delimiter = '|';
       String address = _generateValidAddress(delimiter: delimiter);
+
       expect(MACAddress(address, delimiter: delimiter).bytes, bytes);
     });
 

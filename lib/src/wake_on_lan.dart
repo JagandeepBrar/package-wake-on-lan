@@ -19,8 +19,10 @@ class WakeOnLAN {
     required this.port,
   });
 
-  /// Creates [WakeOnLAN] from an [IPAddress], [MACAddress], and optionally defined [port].
+  /// Creates [WakeOnLAN] from an [IPAddress], [MACAddress]
+  /// and optionally a [SecureONPassword] and [port].
   ///
+  /// [password] is an optional parameter and should only be used with supported hardware.
   /// [port] by default is set to 9, the specification port for Wake-on-LAN functionality.
   factory WakeOnLAN(
     IPAddress ip,
