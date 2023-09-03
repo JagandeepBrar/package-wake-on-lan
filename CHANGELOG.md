@@ -1,3 +1,7 @@
+# 4.1.1+1
+
+- chore: update documentation
+
 # 4.1.1
 
 - tests: add tests for SecureONPassword
