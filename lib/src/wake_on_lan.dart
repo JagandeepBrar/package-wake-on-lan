@@ -67,7 +67,7 @@ class WakeOnLAN {
     return data;
   }
 
-  /// Sends the wake on LAN packets to the [IPAddress], [MACAddress], and [port] defined on creation.
+  /// Sends the wake on LAN packet.
   ///
   /// A [RawDatagramSocket] will be created and bound to any IPv4/IPv6 address and port 0.
   /// The socket will then be used to send the constructed packet to the [IPAddress] and [port].
