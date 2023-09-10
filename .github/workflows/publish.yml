@@ -7,5 +7,20 @@ on:
 
 jobs:
   publish:
-    name: Publish
-    uses: JagandeepBrar/github-dart-workflows/.github/workflows/deploy-dart-package.yml@main
+    name: Publish Package
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Dart
+        uses: dart-lang/setup-dart@v1
+  
+      - name: Publish Package
+        shell: bash
+        run: |
+          dart pub get
+          dart pub publish -f

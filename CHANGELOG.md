@@ -1,3 +1,7 @@
+# 4.1.1+3
+
+- chore: update publishing workflow
+
 # 4.1.1+2
 
 - chore: update documentation
