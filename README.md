@@ -22,7 +22,7 @@ import 'package:wake_on_lan/wake_on_lan.dart';
 Create an `IPAddress` instance by using `IPAddress(address, { type })` where `address` is a string representation of the [broadcast address][link-broadcast-tool] (IPv4) or multicast address (IPv6) of the network and `type` is the internet address type (defaults to `InternetAddressType.IPv4`). The constructor will call the validation function mentioned above but will throw the exception thrown when validating the poorly constructed address string, so it is recommended to validate it first.
 
 ```dart
-String ipv4 = '192.168.1.1';
+String ipv4 = '192.168.1.255';
 
 final validation = IPAddress.validate(ipv4);
 if(validation.state) {
